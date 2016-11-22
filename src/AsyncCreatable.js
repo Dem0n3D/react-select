@@ -17,7 +17,7 @@ const AsyncCreatable = React.createClass({
 		return (
 			<Select.Async {...this.props}>
 				{(asyncProps) => (
-					<Select.Creatable {...this.props}>
+					<Select.Creatable {...this.props} options={asyncProps.options}>
 						{(creatableProps) => (
 							<Select
 								{...reduce(asyncProps, reduce(creatableProps, {}))}
