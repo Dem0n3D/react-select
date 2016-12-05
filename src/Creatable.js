@@ -82,19 +82,23 @@ const Creatable = React.createClass({
 		} = this.props;
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			const option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
-			const isOptionUnique = this.isOptionUnique({ option });
+			const callback = option => {
+				const isOptionUnique = this.isOptionUnique({ option });
 
-			// Don't add the same option twice.
-			if (isOptionUnique) {
-				if (onNewOptionClick) {
-					onNewOptionClick(option);
-				} else {
-					options.unshift(option);
+				// Don't add the same option twice.
+				if (isOptionUnique) {
+					if (onNewOptionClick) {
+						onNewOptionClick(option);
+					} else {
+						options.unshift(option);
 
-					this.select.selectValue(option);
+						this.select.selectValue(option);
+					}
 				}
-			}
+			};
+
+			const option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
+			option.then ? option.then(callback) : callback(option);
 		}
 	},
 
@@ -109,7 +113,6 @@ const Creatable = React.createClass({
 		const filteredOptions = filterOptions(...params) || [];
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			const { newOptionCreator } = this.props;
 
 			const option = newOptionCreator({
 				label: this.inputValue,
