@@ -77,9 +77,10 @@ const Creatable = React.createClass({
 			isValidNewOption,
 			newOptionCreator,
 			onNewOptionClick,
-			options = [],
 			shouldKeyDownEventCreateNewOption
 		} = this.props;
+
+		this.createdOptions = this.createdOptions || [];
 
 		if (isValidNewOption({ label: this.inputValue })) {
 			const callback = option => {
@@ -90,7 +91,7 @@ const Creatable = React.createClass({
 					if (onNewOptionClick) {
 						onNewOptionClick(option);
 					} else {
-						options.unshift(option);
+						this.createdOptions.unshift(option);
 
 						this.select.selectValue(option);
 					}
@@ -211,12 +212,14 @@ const Creatable = React.createClass({
 			children = defaultChildren,
 			newOptionCreator,
 			shouldKeyDownEventCreateNewOption,
+			options,
 			...restProps
 		} = this.props;
 
 		const props = {
 			...restProps,
 			allowCreate: true,
+			options: (this.createdOptions || []).concat(options),
 			filterOptions: this.filterOptions,
 			menuRenderer: this.menuRenderer,
 			onInputChange: this.onInputChange,

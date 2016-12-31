@@ -424,9 +424,9 @@ var Creatable = _react2['default'].createClass({
 		var isValidNewOption = _props.isValidNewOption;
 		var newOptionCreator = _props.newOptionCreator;
 		var onNewOptionClick = _props.onNewOptionClick;
-		var _props$options = _props.options;
-		var options = _props$options === undefined ? [] : _props$options;
 		var shouldKeyDownEventCreateNewOption = _props.shouldKeyDownEventCreateNewOption;
+
+		this.createdOptions = this.createdOptions || [];
 
 		if (isValidNewOption({ label: this.inputValue })) {
 			var callback = function callback(option) {
@@ -437,7 +437,7 @@ var Creatable = _react2['default'].createClass({
 					if (onNewOptionClick) {
 						onNewOptionClick(option);
 					} else {
-						options.unshift(option);
+						_this.createdOptions.unshift(option);
 
 						_this.select.selectValue(option);
 					}
@@ -562,11 +562,13 @@ var Creatable = _react2['default'].createClass({
 		var children = _props4$children === undefined ? defaultChildren : _props4$children;
 		var newOptionCreator = _props4.newOptionCreator;
 		var shouldKeyDownEventCreateNewOption = _props4.shouldKeyDownEventCreateNewOption;
+		var options = _props4.options;
 
-		var restProps = _objectWithoutProperties(_props4, ['children', 'newOptionCreator', 'shouldKeyDownEventCreateNewOption']);
+		var restProps = _objectWithoutProperties(_props4, ['children', 'newOptionCreator', 'shouldKeyDownEventCreateNewOption', 'options']);
 
 		var props = _extends({}, restProps, {
 			allowCreate: true,
+			options: (this.createdOptions || []).concat(options),
 			filterOptions: this.filterOptions,
 			menuRenderer: this.menuRenderer,
 			onInputChange: this.onInputChange,
